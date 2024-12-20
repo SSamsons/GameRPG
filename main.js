@@ -152,16 +152,20 @@ class Player {
 }
 
 function play(players) {
+    let turnCount = 0;
+    const maxTurns = 1000; // Лимит ходов
+
     while (true) {
         const alivePlayers = players.filter(player => !player.isDead());
-        if (alivePlayers.length <= 1) break;
+        if (alivePlayers.length <= 1 || turnCount >= maxTurns) break;
 
         alivePlayers.forEach(player => {
-            if (!player.isDead()) {
-                player.turn(players);
-            }
+            if (!player.isDead()) player.turn(players);
         });
+
+        turnCount++;
     }
+
     const winner = players.find(player => !player.isDead());
     if (winner) {
         console.log(`The winner is ${winner.name}!`);
